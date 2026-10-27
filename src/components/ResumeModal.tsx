@@ -41,7 +41,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
           <div className="flex items-center gap-2.5">
             <FileText className="w-5 h-5 text-[#F5A623]" />
             <h2 id="resume-modal-title" className="text-base font-semibold text-[#F5F5F2]">
-              Resume · Abina Kumar
+              Resume · Abina K
             </h2>
           </div>
           <button 
@@ -95,7 +95,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
                   {EDUCATION_HISTORY[0].institution} · {EDUCATION_HISTORY[0].location}
                 </div>
                 <div className="text-xs font-mono text-cyan-400 mt-1">
-                  CGPA: 8.07 / 10 (Through 2nd Semester) · Period: 2024–2028
+                  CGPA: {PERSONAL_INFO.cgpa} ({PERSONAL_INFO.cgpaNote}) · Period: {PERSONAL_INFO.studyPeriod}
                 </div>
               </div>
 

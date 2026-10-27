@@ -10,6 +10,7 @@ export interface ProjectDetail {
   id: string;
   title: string;
   subtitle: string;
+  category?: string;
   featured: boolean;
   shortDescription: string;
   fullOverview: string;

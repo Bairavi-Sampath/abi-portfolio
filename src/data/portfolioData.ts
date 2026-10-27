@@ -2,82 +2,51 @@ import { ProjectDetail, SkillCategory, EducationItem, CertificationItem, SocialL
 
 /**
  * ============================================================================
- * PORTFOLIO CONFIGURATION - ABINA KUMAR
+ * PORTFOLIO DATA - ABINA K
  * ============================================================================
- * Central configuration file for all portfolio data, assets, and contact details.
+ * Authentic portfolio configuration, projects, education, and contact details.
  */
 
-/**
- * ----------------------------------------------------------------------------
- * 1. PORTRAIT PHOTO CONFIGURATION
- * ----------------------------------------------------------------------------
- * When Abina's real photo is ready:
- * 1. Place the photo in `/public/assets/abina_kumar.jpg` (or your chosen path).
- * 2. Update `imagePath` below to point to that asset.
- * 3. Set `hasActualPhoto: true`.
- * The UI will seamlessly render the genuine photograph inside the bespoke frame!
- */
 export const PORTRAIT_CONFIG = {
-  // Path to the image file (relative to public directory, e.g., '/assets/abina_kumar.jpg')
-  imagePath: '', 
-  // Set to true once a real photo asset is supplied in the public assets directory
-  hasActualPhoto: false, 
-  altText: 'Abina Kumar - Computer Science & Engineering Student and UI/UX Designer',
+  imagePath: '/assets/abina-portfolio-graphic.png',
+  hasActualPhoto: true,
+  altText: 'Circular profile graphic of Abina K featuring professional portrait in orange circular frame with skill badges',
 };
 
-/**
- * ----------------------------------------------------------------------------
- * 2. RESUME FILE CONFIGURATION
- * ----------------------------------------------------------------------------
- * When the actual resume PDF is ready:
- * 1. Save the PDF to `/public/assets/Abina_K_Resume.pdf`.
- * 2. Set `isAvailable: true` below.
- * Once `isAvailable: true`, clicking "Download Resume" downloads the file directly.
- * While `isAvailable: false`, an informative dialog opens with instructions and preview.
- */
 export const RESUME_CONFIG = {
-  filePath: '/assets/Abina_K_Resume.pdf',
-  isAvailable: false, // Switch to true when PDF is placed in public/assets/
+  filePath: '/resume.pdf',
+  isAvailable: true,
   fileName: 'Abina_K_Resume.pdf',
   lastUpdated: 'October 2025',
 };
 
-/**
- * ----------------------------------------------------------------------------
- * 3. PERSONAL INFORMATION
- * ----------------------------------------------------------------------------
- */
 export const PERSONAL_INFO = {
   name: 'Abina K',
   fullName: 'Abina Kumar',
   degree: 'B.E. Computer Science and Engineering',
   role: 'Computer Science & Engineering Student',
-  specialization: 'UI/UX Design & User-Centered Engineering',
+  specialization: 'UI/UX Design & Software Development',
   institution: 'KPR Institute of Engineering and Technology',
   location: 'Coimbatore, Tamil Nadu, India',
   studyPeriod: '2024–2028',
-  cgpa: '8.07 / 10',
-  cgpaNote: 'Through the 2nd semester',
+  cgpa: '8.4 / 10',
+  cgpaNote: 'Through 4th semester',
   
   heroEyebrow: 'COMPUTER SCIENCE & ENGINEERING',
   heroMainHeading: "Hi, I'm Abina K.",
-  heroSupportingHeadline: 'Designing thoughtful digital experiences. Exploring technology with purpose.',
-  heroIntro: "I'm a Computer Science and Engineering student interested in UI/UX design, intuitive interfaces and technology-driven problem-solving. I enjoy exploring ideas, understanding problems and turning them into meaningful digital experiences.",
+  heroSupportingHeadline: 'I enjoy creating useful digital experiences and exploring how technology can solve real-world problems.',
+  heroIntro: "I'm a Computer Science and Engineering student interested in UI/UX design, software development, and technology. I enjoy learning new skills, working on projects, and turning ideas into practical solutions.",
   
   aboutLabel: 'ABOUT ME',
-  aboutHeading: 'Curious by nature. Thoughtful by design.',
-  aboutContent: "I'm a Computer Science and Engineering student exploring the intersection of technology, design and practical problem-solving. I enjoy learning new concepts, working on technical projects and discovering ways to make digital experiences more intuitive and useful.",
+  aboutHeading: 'A curious mind with a love for creating.',
+  aboutContent: "I'm a Computer Science and Engineering student who enjoys exploring technology, designing simple interfaces, and learning by building. I like turning ideas into practical solutions and discovering something new along the way.",
+  aboutSupportingContent: "I'm interested in understanding how software and hardware work together. Through my classes and projects, I'm building my programming skills, exploring UI/UX design, and learning how technology can solve everyday problems.",
 
   contactEmail: 'abinakumar007@gmail.com',
-  contactPhone: '+91 1234567891',
-  contactPhoneNote: 'Supplied contact number (verify before final publication)',
+  contactPhone: '+91 8778231019',
+  contactPhoneNote: 'Direct phone contact',
 };
 
-/**
- * ----------------------------------------------------------------------------
- * 4. SOCIAL & PROFILE LINKS
- * ----------------------------------------------------------------------------
- */
 export const SOCIAL_LINKS: SocialLink[] = [
   {
     name: 'LinkedIn',
@@ -116,44 +85,39 @@ export const SOCIAL_LINKS: SocialLink[] = [
   },
   {
     name: 'CodeChef',
-    url: '#',
-    username: 'Profile pending',
-    isConfigured: false, // Configurable until verified public profile URL is supplied
+    url: 'https://www.codechef.com/users/kpr24cs005',
+    username: 'kpr24cs005',
+    isConfigured: true,
     type: 'codechef',
   },
 ];
 
-/**
- * ----------------------------------------------------------------------------
- * 5. FEATURED PROJECTS
- * ----------------------------------------------------------------------------
- */
 export const PROJECTS: ProjectDetail[] = [
   {
     id: 'aqua-velo',
     title: 'AQUA VELO',
-    subtitle: 'Water-Powered Car',
+    subtitle: 'Water-Powered Car Model',
+    category: 'PHYSICS & MECHANICS',
     featured: true,
-    shortDescription: 'This project demonstrates a water-powered vehicle model that explores gravitational force, water pressure, hydrodynamics and energy conversion to generate motion without fuel or electricity.',
-    fullOverview: 'Aqua Velo is an eco-kinetic engineering prototype exploring alternative propulsion mechanics. By harnessing fluid pressure gradients, gravitational potential, and nozzle constriction hydrodynamics, the model converts stored hydraulic potential energy into continuous directional kinetic motion.',
-    problem: 'Modern transportation remains reliant on fossil fuels and chemical batteries, both carrying environmental lifecycle impacts. The challenge was to model a clean, fuel-less, zero-emission kinetic propulsion mechanism using natural hydrodynamics and gravity.',
-    solution: 'Designed and fabricated a kinetic vehicular chassis incorporating a pressurized hydraulic chamber, precision constriction nozzle, and hydrodynamic propulsion conduit that systematically converts fluid displacement force into linear drive axle rotation.',
-    technologies: ['Hydrodynamics', 'Kinetic Conversion', 'Fluid Mechanics', 'Pressure Nozzle Dynamics', 'Mechanical Prototyping'],
-    actualContribution: 'Conducted core hydrodynamic calculations, physical prototype chassis design, nozzle constriction tests, pressure dissipation analysis, and documented the mechanical propulsion principles.',
+    shortDescription: 'AQUA VELO is a prototype car designed to demonstrate motion using water pressure and gravity. The project explores how fluid movement and mechanical design can work together to create motion without a conventional fuel-powered motor.',
+    fullOverview: 'AQUA VELO is an experimental prototype exploring fuel-free propulsion through fluid dynamics. By using gravity and pressurized water displacement channeled through a constriction nozzle, the system demonstrates the conversion of potential and kinetic energy into forward vehicular motion.',
+    problem: 'Conventional propulsion depends on fossil fuels or chemical batteries, both carrying environmental impacts. This project explores whether clean, zero-emission impulse can be generated mechanically using water pressure and gravity.',
+    solution: 'Engineered a vehicular chassis featuring a pressurized hydraulic chamber, constriction nozzle, and directional impulse geometry that converts fluid displacement into mechanical wheel rotation.',
+    technologies: ['Fluid Mechanics', 'Hydrodynamics', 'Kinetic Energy', 'Mechanical Prototyping'],
+    actualContribution: 'Designed the physical prototype chassis, tested nozzle shapes for water pressure, measured traveling distance across multiple runs, and documented the propulsion mechanics.',
     processAndWorkflow: [
-      'Conception & mechanical physics evaluation of fluid pressure dynamics',
-      'Chassis CAD & hydrodynamic channel dimensioning',
-      'Nozzle constriction testing for optimal impulse-to-displacement ratio',
-      'Experimental run logging: distance vs. chamber volume pressure curves',
+      'Researched fluid pressure dynamics and nozzle impulse forces',
+      'Designed the chassis layout and water chamber mounts',
+      'Tested various nozzle constriction sizes to maximize distance',
+      'Logged experimental test runs measuring distance against water volume',
     ],
     resultsAndLearnings: [
-      'Demonstrated direct mechanical propulsion without electrical battery or combustible fuel',
-      'Gained deep practical insight into fluid mechanics, aerodynamic drag resistance, and energy conservation',
+      'Successfully demonstrated vehicle movement using only water pressure and gravity without batteries or fuel',
+      'Gained hands-on understanding of fluid flow, aerodynamic drag, and mechanical energy conservation',
     ],
     futureImprovements: [
-      'Integrating pneumatic secondary compression to lengthen impulse duration',
-      'Lightweight carbon-composite chassis iteration to improve power-to-weight ratio',
-      'Digital flow sensor logging via microcontroller for real-time impulse telemetry',
+      'Experimenting with lighter materials to improve the power-to-weight ratio',
+      'Adding digital pressure and flow sensors to log performance data automatically',
     ],
     academicContext: 'Engineering physics and mechanics prototype project',
     isConceptualVisual: true,
@@ -162,28 +126,28 @@ export const PROJECTS: ProjectDetail[] = [
   {
     id: 'innovsense',
     title: 'INNOVSENSE',
-    subtitle: 'Alcohol Detection and Automatic Engine Cut-Off System',
+    subtitle: 'Alcohol Detection & Automatic Engine Cut-Off',
+    category: 'EMBEDDED SYSTEMS & AUTOMATION',
     featured: false,
-    shortDescription: "An embedded system designed to detect alcohol in a driver's breath using an MQ-3 alcohol sensor. When the configured threshold is exceeded, the system activates a warning buzzer and triggers an engine cut-off mechanism.",
-    fullOverview: 'InnovSense is an embedded automotive safety prototype designed to prevent intoxicated driving proactively. The system continuously samples atmospheric ethanol concentrations near the steering cluster. If the calibrated BAC safety threshold is breached, the microcontroller immediately signals an audio alert and disengages the ignition circuit through a high-reliability MOSFET switch.',
-    problem: 'Drunk driving remains a leading cause of preventable road traffic fatalities worldwide. Post-incident enforcement does not prevent collisions; a vehicle-side proactive prevention mechanism is required.',
-    solution: 'Engineered an embedded microcontroller loop coupled to a calibrated MQ-3 gas sensor. The firmware processes analog voltage levels, maps ethanol vapor concentration, and manages a fail-safe power cut-off circuit via an N-channel MOSFET and visual/auditory alarms.',
-    technologies: ['MQ-3 Sensor', 'Embedded Systems', 'Microcontroller', 'MOSFET', 'Automation', 'Alert System'],
-    actualContribution: 'Hardware breadboard layout and wiring, analog sensor calibration script, threshold logic implementation in firmware, MOSFET ignition cutoff testing, and alert signaling sequencing.',
+    shortDescription: 'INNOVSENSE explores a vehicle safety system that detects alcohol vapour using an MQ-3 sensor. When a configured threshold is exceeded, the system can trigger a warning buzzer and a prototype ignition cut-off circuit.',
+    fullOverview: 'INNOVSENSE is an embedded automotive safety prototype designed to prevent intoxicated driving before a vehicle can be operated. An MQ-3 gas sensor continuously monitors ambient vapour levels; when readings surpass the configured safety threshold, the system sounds an acoustic buzzer and disengages the ignition switch circuit via a power MOSFET.',
+    problem: 'Impaired driving is a leading factor in preventable roadway accidents. Active, in-cabin automated interlocks can detect alcohol presence and cut off ignition before the vehicle operates.',
+    solution: 'Interfaced an MQ-3 alcohol sensor with a microcontroller ADC. Upon detecting vapour levels beyond the threshold, the microcontroller triggers an acoustic buzzer and interrupts the ignition loop through an N-channel power MOSFET.',
+    technologies: ['MQ-3 Gas Sensor', 'Microcontroller and ADC', 'Buzzer Alert', 'MOSFET Switching', 'Embedded Systems'],
+    actualContribution: 'Wired the prototype circuit on a breadboard, calibrated the MQ-3 sensor thresholds, wrote the microcontroller firmware logic, and tested the automatic cutoff switch under simulated conditions.',
     processAndWorkflow: [
-      'Sensor characterization: measuring MQ-3 resistance in ambient vs. vapor conditions',
-      'Microcontroller ADC sampling and debounced threshold comparator design',
-      'MOSFET gate driver circuit wiring to simulate vehicle ignition interrupt',
-      'Buzzer audio-frequency pulsing and status LED indicator routine',
+      'Tested MQ-3 sensor resistance in normal air versus alcohol vapor conditions',
+      'Wrote microcontroller code to sample sensor readings and filter electrical noise',
+      'Built and tested the MOSFET power cut-off circuit simulating ignition interrupt',
+      'Connected warning buzzers and indicator LEDs for clear driver alerts',
     ],
     resultsAndLearnings: [
-      'Reliably cut ignition within 350ms of detecting vapor above configured threshold',
-      'Learned embedded sensor latency profiles, heater warm-up duration, and analog noise filtering',
+      'Reliably cut ignition within milliseconds of detecting alcohol vapor above the threshold',
+      'Learned how gas sensors operate, how warm-up cycles affect readings, and how to control circuits with MOSFETs',
     ],
     futureImprovements: [
-      'Integration with GPS / GSM module to send coordinates to emergency contacts or fleet dispatch',
-      'Biometric driver verification to prevent passenger breath bypass',
-      'Cold-start interlock mechanism compliant with automotive safety certifications',
+      'Adding GPS and GSM modules to send alerts to fleet managers or emergency contacts',
+      'Adding driver face verification to ensure only the driver is being tested',
     ],
     academicContext: 'Embedded systems and automation engineering project',
     isConceptualVisual: true,
@@ -191,112 +155,89 @@ export const PROJECTS: ProjectDetail[] = [
   },
   {
     id: 'smart-weight-monitoring',
-    title: 'SMART WEIGHT MONITORING IN PUBLIC AND PRIVATE TRANSPORT',
-    subtitle: 'AI/ML-Assisted Overload Prevention System',
+    title: 'Smart Weight Monitoring in Transport',
+    subtitle: 'Overload Detection & Prevention System',
+    category: 'SMART MONITORING & RESEARCH',
     featured: false,
-    shortDescription: 'This transport-monitoring project explores the use of load cells and pressure sensors to monitor vehicle load. AI/ML algorithms analyze sensor data to help identify unsafe loading conditions and support alerts or other control responses.',
-    fullOverview: 'An intelligent vehicular weight and balance monitoring framework combining distributed load cell strain gauges with machine learning anomaly detection. The system captures weight distribution across axles, detects asymmetric or hazardous loading patterns, and evaluates vehicle stability in transit.',
-    problem: 'Commercial and public transport overloading causes severe road degradation, brake failures, rollover accidents, and structural vehicle stress without driver awareness before transit.',
-    solution: 'Placed multi-point load cells and pressure sensors at key chassis suspension points. Captured real-time loading profiles and analyzed sensor variance using ML classification algorithms to detect hazardous load imbalances, triggering audio-visual driver warnings and telemetry data streams.',
-    technologies: ['Load Cells', 'Pressure Sensors', 'Microcontroller', 'AI/ML', 'Embedded C / Python', 'IoT — Wi-Fi / GSM'],
-    actualContribution: 'Assisted in sensor data collection methodologies, exploratory data analysis of load curves, firmware ADC integration for strain gauges, and co-authoring the conference research paper.',
+    shortDescription: 'This project explores a vehicle load-monitoring system using axle load cells and pressure sensors. The system aims to estimate vehicle load distribution and identify possible overloading using sensor data and smart analysis.',
+    fullOverview: 'A vehicle load-monitoring system integrating axle load cells and pressure sensors to track dynamic weight distribution. Real-time sensor telemetry allows the system to identify potential overloading and axle imbalance conditions, mitigating accident risks and road wear.',
+    problem: 'Commercial and public vehicles frequently operate overloaded or with hazardous weight imbalance, degrading braking performance, damaging infrastructure, and causing rollover risks without real-time driver awareness.',
+    solution: 'Positioned multi-point load cells and pressure sensors at axle suspension points. Telemetry data is collected to detect overload conditions, alerting operators and providing data for safety logging.',
+    technologies: ['Load Cells', 'Pressure Sensors', 'Microcontroller', 'Python', 'AI/ML Analysis'],
+    actualContribution: 'Helped set up the sensor calibration matrix, collected and cleaned test data, analyzed load curves using Python, and co-authored a research paper presented at Coimbatore Institute of Technology (CIT).',
     processAndWorkflow: [
-      'Suspension load sensor array configuration and calibration matrix',
-      'Data collection across multiple load scenarios (balanced, over-limit, side-biased)',
-      'Exploratory data analysis and feature extraction using Python data science libraries',
-      'Paper documentation and peer-reviewed presentation at CIT, Coimbatore',
+      'Configured suspension load sensors and calibrated analog-to-digital converter readings',
+      'Collected sensor data under different weight scenarios (balanced, over-limit, and side-tilted)',
+      'Analyzed load patterns and tested simple classification algorithms using Python',
+      'Co-authored research paper and presented findings at CIT, Coimbatore',
     ],
     resultsAndLearnings: [
-      'Presented research paper at Coimbatore Institute of Technology (CIT), Coimbatore',
-      'Gained practical experience bridging hardware data acquisition with statistical machine learning',
+      'Presented the research paper at Coimbatore Institute of Technology (CIT), Coimbatore',
+      'Gained practical experience connecting physical sensors to computational data analysis',
     ],
     futureImprovements: [
-      'Cloud fleet management dashboard with geofenced weigh-station automation',
-      'Edge-ML inference directly on a low-power microcontroller (TinyML)',
-      'Dynamic speed governor linkage based on active payload weight',
+      'Developing a mobile dashboard for real-time load display',
+      'Exploring edge machine learning on small microcontrollers for instant predictions',
     ],
-    academicContext: 'Research paper presented at CIT, Coimbatore',
+    academicContext: 'Research paper presented at Coimbatore Institute of Technology (CIT), Coimbatore.',
     isConceptualVisual: true,
     visualType: 'weight-monitoring',
   },
 ];
 
-/**
- * ----------------------------------------------------------------------------
- * 6. SKILLS & TECHNOLOGIES
- * ----------------------------------------------------------------------------
- */
 export const SKILL_CATEGORIES: SkillCategory[] = [
   {
     title: 'Programming Languages',
-    description: 'Core languages for algorithm design, software development, and embedded computing.',
+    description: 'Languages I use for writing logic, solving problems, and building software.',
     skills: [
-      { name: 'C', levelDescription: 'Embedded firmware, pointer math, low-level mechanics', highlight: true },
-      { name: 'Python', levelDescription: 'Data science, scripting, algorithm design', highlight: true },
-      { name: 'Java', levelDescription: 'Object-oriented programming, class design', highlight: true },
+      { name: 'Python', levelDescription: 'Data analysis, scripting, and problem solving', highlight: true },
+      { name: 'C', levelDescription: 'Hardware logic, pointers, and embedded systems', highlight: true },
+      { name: 'Java', levelDescription: 'Object-oriented programming and application fundamentals', highlight: true },
     ],
   },
   {
-    title: 'Web Development',
-    description: 'Foundations for responsive web layouts and interface construction.',
+    title: 'Web Fundamentals',
+    description: 'Foundations for building clean, responsive, and accessible web pages.',
     skills: [
-      { name: 'HTML', levelDescription: 'Semantic structure, accessibility, DOM hierarchy' },
-      { name: 'CSS', levelDescription: 'Modern layouts, flexbox, grid, styling system' },
+      { name: 'HTML', levelDescription: 'Semantic structure and accessible page layout' },
+      { name: 'CSS', levelDescription: 'Modern layouts, flexbox, grid, and responsive styling' },
     ],
   },
   {
-    title: 'Platforms & Tools',
-    description: 'Development environments, simulation platforms, and data science notebooks.',
+    title: 'Development Tools & Platforms',
+    description: 'Software, cloud environments, and platforms I use for collaboration, testing, and data.',
     skills: [
-      { name: 'GitHub', levelDescription: 'Version control, repositories, collaboration' },
-      { name: 'Google Colab', levelDescription: 'Cloud Python execution, ML experimentation' },
-      { name: 'Kaggle', levelDescription: 'Data science competitions, datasets' },
-      { name: 'MATLAB', levelDescription: 'Mathematical computing, numerical analysis' },
-      { name: 'Tinkercad', levelDescription: 'Circuit simulation, embedded prototyping' },
+      { name: 'GitHub', levelDescription: 'Version control and project repositories' },
+      { name: 'Google Colab', levelDescription: 'Running Python notebooks and testing data models' },
+      { name: 'Kaggle', levelDescription: 'Working with open datasets and data science practice' },
+      { name: 'MATLAB', levelDescription: 'Mathematical modeling and simulation' },
+      { name: 'Tinkercad', levelDescription: 'Simulating electronic circuits and microcontrollers' },
     ],
   },
   {
-    title: 'Coding & Learning Platforms',
-    description: 'Continuous algorithmic problem solving and technical evaluation platforms.',
+    title: 'Problem Solving & Practice',
+    description: 'Platforms where I regularly practice data structures, algorithms, and coding questions.',
     skills: [
-      { name: 'LeetCode', levelDescription: 'Data structures & algorithm practice' },
-      { name: 'HackerRank', levelDescription: 'Software engineer certified evaluations' },
-      { name: 'CodeTantra SEA', levelDescription: 'Institutional automated learning curriculum' },
-      { name: 'CodeChef', levelDescription: 'Competitive programming rounds' },
+      { name: 'LeetCode', levelDescription: 'Data structures & algorithm problem-solving' },
+      { name: 'HackerRank', levelDescription: 'Skill assessments and coding evaluations' },
+      { name: 'CodeTantra SEA', levelDescription: 'Curriculum-guided coding practice' },
+      { name: 'CodeChef', levelDescription: 'Participating in programming challenges' },
     ],
-  },
-  /**
-   * UI/UX DESIGN TOOLS (CONFIGURABLE)
-   * As specified: Keep empty or configurable until Abina adds her verified tools.
-   * Do not automatically claim Figma, Adobe XD, Framer or other unverified design tools.
-   */
-  {
-    title: 'UI/UX Design Tools',
-    description: 'Design software & user-centered prototyping tool stack.',
-    skills: [
-      // Populated dynamically or when configured by owner.
-    ],
-    isConfigurableUIUX: true,
   },
 ];
 
-/**
- * ----------------------------------------------------------------------------
- * 7. EDUCATION HISTORY
- * ----------------------------------------------------------------------------
- */
 export const EDUCATION_HISTORY: EducationItem[] = [
   {
     institution: 'KPR Institute of Engineering and Technology',
     location: 'Coimbatore, Tamil Nadu',
     degree: 'B.E. Computer Science and Engineering',
     period: '2024–2028',
-    score: '8.07 / 10 CGPA',
+    score: '8.4 / 10 CGPA',
     scoreLabel: 'Academic Score',
     highlights: [
-      'CGPA: 8.07/10 through the second semester',
-      'Active focus on UI/UX design, interactive systems, and core computer science',
-      'Participant in campus engineering prototyping and technical symposiums',
+      'Maintaining an 8.4/10 CGPA through the fourth semester',
+      'Focusing on UI/UX design, software development, and core computer science',
+      'Participating in campus technical symposiums and engineering prototype projects',
     ],
     active: true,
   },
@@ -306,10 +247,10 @@ export const EDUCATION_HISTORY: EducationItem[] = [
     degree: 'Higher Secondary Certificate (HSC) — Mathematics and Biology',
     period: '2022–2024',
     score: '88.67%',
-    scoreLabel: 'Board Examination Score',
+    scoreLabel: 'Board Score',
     highlights: [
-      'Comprehensive foundation in Higher Mathematics, Physics, Chemistry, and Biology',
-      'Rigorous analytical problem-solving and academic consistency',
+      'Strong academic foundation in Mathematics, Physics, Chemistry, and Biology',
+      'Developed disciplined study habits and analytical problem-solving skills',
     ],
   },
   {
@@ -318,27 +259,22 @@ export const EDUCATION_HISTORY: EducationItem[] = [
     degree: 'Secondary School Leaving Certificate (SSLC)',
     period: '2021–2022',
     score: '89.2%',
-    scoreLabel: 'Board Examination Score',
+    scoreLabel: 'Board Score',
     highlights: [
-      'Strong distinction across Science, Mathematics, and Languages',
-      'Foundational preparation for advanced STEM higher secondary curriculum',
+      'Graduated with distinction across Science, Mathematics, and Languages',
+      'Solid preparation for advanced higher secondary studies in STEM',
     ],
   },
 ];
 
-/**
- * ----------------------------------------------------------------------------
- * 8. CERTIFICATIONS
- * ----------------------------------------------------------------------------
- */
 export const CERTIFICATIONS: CertificationItem[] = [
   {
     id: 'cert-1',
     title: 'Python Libraries for Data Science',
     date: 'October 21, 2025',
     issuer: 'Data Science & Scientific Computing',
-    verificationUrl: '', // Configurable verification URL
-    certificateAssetPath: '', // Configurable path to scanned PDF/JPG
+    verificationUrl: '',
+    certificateAssetPath: '',
   },
   {
     id: 'cert-2',

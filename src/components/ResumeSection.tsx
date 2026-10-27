@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, Download, CheckCircle2, ShieldAlert, Sparkles, ArrowRight } from 'lucide-react';
+import { FileText, CheckCircle2 } from 'lucide-react';
 import { RESUME_CONFIG, PERSONAL_INFO } from '../data/portfolioData';
 
 interface ResumeSectionProps {
@@ -36,8 +36,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({ onResumeClick }) =
               </h2>
 
               <p className="mt-4 text-base sm:text-lg text-[#A6ABB5] leading-relaxed max-w-2xl">
-                A structured overview of undergraduate coursework, engineering prototypes, 
-                computational toolkits, and academic distinction across Tamil Nadu state examinations.
+                A summary of my coursework, hands-on engineering projects, technical skills, and academic background in Computer Science and Engineering.
               </p>
 
               {/* Quick resume metadata badges */}
@@ -49,7 +48,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({ onResumeClick }) =
                 <span className="text-[#2A2F38]">·</span>
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-[#F5A623]" />
-                  <span>CGPA: 8.07 / 10</span>
+                  <span>CGPA: {PERSONAL_INFO.cgpa}</span>
                 </div>
                 <span className="text-[#2A2F38]">·</span>
                 <div className="flex items-center gap-1.5">
@@ -74,17 +73,13 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({ onResumeClick }) =
                   onClick={onResumeClick}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 text-sm font-bold text-black bg-[#F5A623] hover:bg-[#e0951b] rounded-xl shadow-lg shadow-[#F5A623]/15 transition-all transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
                 >
-                  <Download className="w-4 h-4" />
-                  <span>Download Resume</span>
+                  <FileText className="w-4 h-4" />
+                  <span>View Resume</span>
                 </button>
 
                 {/* State explanation */}
                 <span className="text-[11px] font-mono text-[#A6ABB5] mt-3">
-                  {RESUME_CONFIG.isAvailable ? (
-                    <span className="text-emerald-400">PDF Ready for Direct Download</span>
-                  ) : (
-                    <span>Placeholder State · Click to Preview &amp; Configure</span>
-                  )}
+                  <span className="text-emerald-400">Click to view verified PDF in browser</span>
                 </span>
               </div>
             </div>

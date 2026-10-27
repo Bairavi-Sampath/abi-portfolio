@@ -38,7 +38,7 @@ export const Footer: React.FC = () => {
             </div>
             <p className="text-sm leading-relaxed max-w-sm">
               Computer Science &amp; Engineering student at KPR Institute of Engineering and Technology, 
-              Coimbatore. Dedicated to intuitive UI/UX design, systems thinking, and purposeful technology.
+              Coimbatore. Interested in UI/UX design, software development, and turning ideas into practical solutions.
             </p>
             <div className="text-xs font-mono text-[#F5A623]">
               B.E. CSE · Class of 2024–2028

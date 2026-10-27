@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, ExternalLink, Check, Copy, AlertCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, ExternalLink, Check, Copy, AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import { PERSONAL_INFO, SOCIAL_LINKS } from '../data/portfolioData';
+
+// Web3Forms configuration: uses env variable if present, falling back to user's access key
+const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || 'a85abebb-04ce-4acd-ab6d-5de5e5514a3b';
+
+type SubmissionStatus = 'idle' | 'submitting' | 'success' | 'error';
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -11,8 +16,25 @@ export const Contact: React.FC = () => {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [status, setStatus] = useState<SubmissionStatus>('idle');
+  const [statusMessage, setStatusMessage] = useState<string>('');
   const [copied, setCopied] = useState(false);
-  const [submittedDirectAction, setSubmittedDirectAction] = useState(false);
+
+  const handleInputChange = (field: keyof typeof formData, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next[field];
+        return next;
+      });
+    }
+    // Reset submission feedback banner once user starts modifying after an error
+    if (status === 'error') {
+      setStatus('idle');
+      setStatusMessage('');
+    }
+  };
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
@@ -21,7 +43,7 @@ export const Contact: React.FC = () => {
     }
     if (!formData.email.trim()) {
       newErrors.email = 'Please provide your email address.';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
       newErrors.email = 'Please enter a valid email format (e.g. name@domain.com).';
     }
     if (!formData.message.trim()) {
@@ -33,18 +55,60 @@ export const Contact: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validate()) return;
+    if (status === 'submitting') return;
 
-    // Direct mailto generation with prefilled fields
-    const subjectLine = encodeURIComponent(formData.subject || `Portfolio Message from ${formData.name}`);
-    const bodyContent = encodeURIComponent(
-      `Sender Name: ${formData.name}\nSender Email: ${formData.email}\n\nMessage:\n${formData.message}`
-    );
+    setStatus('submitting');
+    setStatusMessage('');
 
-    window.location.href = `mailto:${PERSONAL_INFO.contactEmail}?subject=${subjectLine}&body=${bodyContent}`;
-    setSubmittedDirectAction(true);
+    // Pre-format email subject with default fallback
+    const subjectLine = formData.subject.trim()
+      ? `New Portfolio Contact Message: ${formData.subject.trim()}`
+      : 'New Portfolio Contact Message';
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          subject: subjectLine,
+          message: formData.message.trim(),
+          botcheck: '', // Honeypot spam prevention
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setStatus('success');
+        setStatusMessage(data.message || 'Thank you! Your message has been sent successfully. I will get back to you soon.');
+        // Reset form fields upon successful submission
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+        });
+        setErrors({});
+      } else {
+        setStatus('error');
+        setStatusMessage(
+          data.message || 'Submission failed. Please check your details and try again, or reach out via direct email.'
+        );
+      }
+    } catch (error) {
+      console.error('Web3Forms submission error:', error);
+      setStatus('error');
+      setStatusMessage('A network error occurred while submitting the form. Please check your connection or send a direct email.');
+    }
   };
 
   const copyEmailToClipboard = () => {
@@ -66,10 +130,10 @@ export const Contact: React.FC = () => {
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-[#F5F5F2] tracking-tight">
-            Let's Connect and Create Something Meaningful.
+            Let's Connect
           </h2>
-          <p className="mt-3 text-base text-[#A6ABB5]">
-            "I'm always interested in learning, exploring ideas and connecting with people who enjoy building useful things."
+          <p className="mt-3 text-base sm:text-lg text-[#A6ABB5] leading-relaxed">
+            Open for internships, student projects, and UI/UX design opportunities. Have an idea or project in mind? Let's connect and bring it to life!
           </p>
         </div>
 
@@ -189,20 +253,35 @@ export const Contact: React.FC = () => {
                 Send a Direct Message
               </h3>
               <p className="text-xs text-[#A6ABB5] mb-6">
-                Fill in the details below. This form triggers your local email client with your message pre-composed.
+                Fill in the details below to reach me directly. Messages are delivered straight to my inbox.
               </p>
 
               <form onSubmit={handleSubmit} noValidate className="space-y-4">
+                {/* Hidden Fields for Web3Forms configuration and spam protection */}
+                <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+                <input 
+                  type="checkbox" 
+                  name="botcheck" 
+                  className="hidden" 
+                  style={{ display: 'none' }} 
+                  tabIndex={-1} 
+                  autoComplete="off" 
+                />
+
                 {/* Name */}
                 <div>
                   <label htmlFor="contact-name" className="block text-xs font-medium text-[#F5F5F2] mb-1.5">
-                    Your Name <span className="text-[#F5A623]">*</span>
+                    Full Name <span className="text-[#F5A623]">*</span>
                   </label>
                   <input
                     id="contact-name"
+                    name="name"
                     type="text"
+                    required
+                    aria-required="true"
+                    aria-invalid={!!errors.name}
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) => handleInputChange('name', e.target.value)}
                     placeholder="e.g. Priyadharshini"
                     className={`w-full px-3.5 py-2.5 rounded-lg bg-[#14171E] border text-sm text-[#F5F5F2] placeholder-[#A6ABB5]/40 focus:outline-none transition-colors ${
                       errors.name 
@@ -211,8 +290,8 @@ export const Contact: React.FC = () => {
                     }`}
                   />
                   {errors.name && (
-                    <p className="text-xs text-rose-400 mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3.5 h-3.5" />
+                    <p className="text-xs text-rose-400 mt-1 flex items-center gap-1" role="alert">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
                       {errors.name}
                     </p>
                   )}
@@ -221,13 +300,17 @@ export const Contact: React.FC = () => {
                 {/* Email */}
                 <div>
                   <label htmlFor="contact-email" className="block text-xs font-medium text-[#F5F5F2] mb-1.5">
-                    Your Email Address <span className="text-[#F5A623]">*</span>
+                    Email Address <span className="text-[#F5A623]">*</span>
                   </label>
                   <input
                     id="contact-email"
+                    name="email"
                     type="email"
+                    required
+                    aria-required="true"
+                    aria-invalid={!!errors.email}
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
                     placeholder="name@domain.com"
                     className={`w-full px-3.5 py-2.5 rounded-lg bg-[#14171E] border text-sm text-[#F5F5F2] placeholder-[#A6ABB5]/40 focus:outline-none transition-colors ${
                       errors.email 
@@ -236,8 +319,8 @@ export const Contact: React.FC = () => {
                     }`}
                   />
                   {errors.email && (
-                    <p className="text-xs text-rose-400 mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3.5 h-3.5" />
+                    <p className="text-xs text-rose-400 mt-1 flex items-center gap-1" role="alert">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
                       {errors.email}
                     </p>
                   )}
@@ -246,13 +329,14 @@ export const Contact: React.FC = () => {
                 {/* Subject */}
                 <div>
                   <label htmlFor="contact-subject" className="block text-xs font-medium text-[#F5F5F2] mb-1.5">
-                    Subject / Topic (Optional)
+                    Subject <span className="text-[#A6ABB5] font-normal">(Optional)</span>
                   </label>
                   <input
                     id="contact-subject"
+                    name="subject"
                     type="text"
                     value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    onChange={(e) => handleInputChange('subject', e.target.value)}
                     placeholder="e.g. Design collaboration or project inquiry"
                     className="w-full px-3.5 py-2.5 rounded-lg bg-[#14171E] border border-[#2A2F38] focus:border-[#F5A623] text-sm text-[#F5F5F2] placeholder-[#A6ABB5]/40 focus:outline-none transition-colors"
                   />
@@ -265,9 +349,13 @@ export const Contact: React.FC = () => {
                   </label>
                   <textarea
                     id="contact-message"
+                    name="message"
                     rows={4}
+                    required
+                    aria-required="true"
+                    aria-invalid={!!errors.message}
                     value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    onChange={(e) => handleInputChange('message', e.target.value)}
                     placeholder="Share your thoughts, opportunity, or feedback..."
                     className={`w-full px-3.5 py-2.5 rounded-lg bg-[#14171E] border text-sm text-[#F5F5F2] placeholder-[#A6ABB5]/40 focus:outline-none transition-colors resize-none ${
                       errors.message 
@@ -276,8 +364,8 @@ export const Contact: React.FC = () => {
                     }`}
                   />
                   {errors.message && (
-                    <p className="text-xs text-rose-400 mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3.5 h-3.5" />
+                    <p className="text-xs text-rose-400 mt-1 flex items-center gap-1" role="alert">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
                       {errors.message}
                     </p>
                   )}
@@ -287,23 +375,62 @@ export const Contact: React.FC = () => {
                 <div className="pt-2">
                   <button
                     type="submit"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 text-xs font-bold uppercase tracking-wider text-black bg-[#F5A623] hover:bg-[#e0951b] rounded-xl transition-all cursor-pointer shadow-lg shadow-[#F5A623]/15 active:scale-95"
+                    disabled={status === 'submitting'}
+                    className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-lg ${
+                      status === 'submitting'
+                        ? 'bg-[#F5A623]/70 text-black cursor-not-allowed shadow-none'
+                        : 'text-black bg-[#F5A623] hover:bg-[#e0951b] cursor-pointer shadow-[#F5A623]/15 active:scale-95'
+                    }`}
                   >
-                    <Send className="w-3.5 h-3.5" />
-                    <span>Launch Email Client</span>
+                    {status === 'submitting' ? (
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        <span>Sending Message...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-3.5 h-3.5" />
+                        <span>Send Message</span>
+                      </>
+                    )}
                   </button>
                 </div>
 
-                {/* Genuine Fallback Feedback */}
-                {submittedDirectAction && (
-                  <div className="p-3.5 rounded-lg bg-[#14171E] border border-cyan-500/40 text-xs text-[#A6ABB5] space-y-1">
-                    <p className="text-[#F5F5F2] font-semibold flex items-center gap-1.5">
-                      <Check className="w-4 h-4 text-cyan-400" />
-                      Email client launched with your message pre-formatted!
+                {/* Success Feedback Banner */}
+                {status === 'success' && (
+                  <div 
+                    className="p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-200 space-y-1.5 transition-all"
+                    role="alert"
+                  >
+                    <div className="flex items-center gap-2 font-semibold text-emerald-300 text-sm">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                      <span>Message Sent Successfully!</span>
+                    </div>
+                    <p className="text-xs text-emerald-200/90 leading-relaxed">
+                      {statusMessage}
                     </p>
-                    <p>
-                      If your default mail client didn't launch automatically, simply write directly to{' '}
-                      <a href={`mailto:${PERSONAL_INFO.contactEmail}`} className="text-[#F5A623] underline">
+                  </div>
+                )}
+
+                {/* Error Feedback Banner */}
+                {status === 'error' && (
+                  <div 
+                    className="p-4 rounded-xl bg-rose-950/40 border border-rose-500/40 text-rose-200 space-y-2 transition-all"
+                    role="alert"
+                  >
+                    <div className="flex items-center gap-2 font-semibold text-rose-300 text-sm">
+                      <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                      <span>Message Delivery Failed</span>
+                    </div>
+                    <p className="text-xs text-rose-200/90 leading-relaxed">
+                      {statusMessage}
+                    </p>
+                    <p className="text-xs text-[#A6ABB5] pt-0.5">
+                      You can also reach me directly at{' '}
+                      <a 
+                        href={`mailto:${PERSONAL_INFO.contactEmail}`} 
+                        className="text-[#F5A623] hover:underline font-semibold"
+                      >
                         {PERSONAL_INFO.contactEmail}
                       </a>.
                     </p>

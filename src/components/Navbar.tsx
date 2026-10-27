@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, FileText, Download } from 'lucide-react';
+import { Menu, X, FileText, Sun, Moon } from 'lucide-react';
 import { RESUME_CONFIG } from '../data/portfolioData';
+import { useTheme } from '../context/ThemeContext';
 
 interface NavbarProps {
   onResumeClick: () => void;
@@ -8,6 +9,7 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ onResumeClick, activeSection }) => {
+  const { theme, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -91,15 +93,31 @@ export const Navbar: React.FC<NavbarProps> = ({ onResumeClick, activeSection }) 
             })}
           </nav>
 
-          {/* Zone 3: Primary Action / Resume Button & Mobile Toggle */}
-          <div className="flex items-center gap-3 shrink-0">
+          {/* Zone 3: Primary Action / Theme Toggle, Resume Button & Mobile Toggle */}
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+            {/* Theme Toggle Button (Desktop & Mobile) */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="p-2 sm:p-2.5 rounded-full text-[#A6ABB5] hover:text-[#F5A623] bg-[#171A20] hover:bg-[#1C2027] border border-[#2A2F38] hover:border-[#F5A623]/50 transition-all duration-200 cursor-pointer shadow-sm active:scale-95 flex items-center justify-center"
+              aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-4 h-4 text-[#F5A623] transition-transform hover:rotate-45" />
+              ) : (
+                <Moon className="w-4 h-4 text-[#F5A623] transition-transform hover:-rotate-12" />
+              )}
+            </button>
+
+            {/* Resume Button */}
             <button
               type="button"
               onClick={onResumeClick}
-              className="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold tracking-wide text-[#F5F5F2] bg-[#1C2027] hover:bg-[#252A34] border border-[#2A2F38] hover:border-[#F5A623]/60 rounded-lg transition-all whitespace-nowrap cursor-pointer shadow-sm active:scale-95"
+              className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold tracking-wider uppercase text-[#F5A623] hover:text-black bg-[#171A20] hover:bg-[#F5A623] border border-[#F5A623]/60 hover:border-[#F5A623] rounded-full transition-all duration-200 whitespace-nowrap cursor-pointer shadow-sm active:scale-95"
             >
-              <Download className="w-3.5 h-3.5 text-[#F5A623]" />
-              Download Resume
+              <FileText className="w-3.5 h-3.5" />
+              <span>View Resume</span>
             </button>
 
             {/* Mobile Menu Button */}
@@ -143,17 +161,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onResumeClick, activeSection }) 
             })}
           </nav>
 
-          <div className="mt-4 pt-4 border-t border-[#2A2F38]">
+          <div className="mt-4 pt-4 border-t border-[#2A2F38] flex items-center justify-between gap-3">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="flex-1 flex items-center justify-center gap-2 px-3.5 py-2.5 text-xs font-medium rounded-lg bg-[#171A20] border border-[#2A2F38] text-[#F5F5F2] hover:border-[#F5A623]/50 transition-colors cursor-pointer"
+            >
+              {theme === 'dark' ? <Sun className="w-4 h-4 text-[#F5A623]" /> : <Moon className="w-4 h-4 text-[#F5A623]" />}
+              <span>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+            </button>
+
             <button
               type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
                 onResumeClick();
               }}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-black bg-[#F5A623] hover:bg-[#e0951b] rounded-lg transition-colors cursor-pointer"
+              className="flex-1 flex items-center justify-center gap-2 px-3.5 py-2.5 text-xs font-semibold uppercase tracking-wider text-black bg-[#F5A623] hover:bg-[#e0951b] rounded-lg transition-colors cursor-pointer"
             >
-              <Download className="w-4 h-4" />
-              Download Resume
+              <FileText className="w-4 h-4" />
+              <span>Resume</span>
             </button>
           </div>
         </div>

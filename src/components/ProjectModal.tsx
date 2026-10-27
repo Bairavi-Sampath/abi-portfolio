@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { X, Cpu, CheckCircle2, ArrowRight, Lightbulb, Compass, Award, ExternalLink } from 'lucide-react';
+import { X, CheckCircle2, ArrowRight, Lightbulb, Compass, Award, Target, BookOpen, AlertCircle } from 'lucide-react';
 import { ProjectDetail } from '../types';
 import { AquaVeloVisual } from './project-visuals/AquaVeloVisual';
 import { InnovSenseVisual } from './project-visuals/InnovSenseVisual';
@@ -32,11 +32,11 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
   const renderVisual = () => {
     switch (project.visualType) {
       case 'water-car':
-        return <AquaVeloVisual />;
+        return <AquaVeloVisual isModal={true} />;
       case 'alcohol-detector':
-        return <InnovSenseVisual />;
+        return <InnovSenseVisual isModal={true} />;
       case 'weight-monitoring':
-        return <WeightMonitoringVisual />;
+        return <WeightMonitoringVisual isModal={true} />;
       default:
         return null;
     }
@@ -51,17 +51,17 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
       onClick={onClose}
     >
       <div 
-        className="relative w-full max-w-4xl max-h-[92vh] flex flex-col bg-[#171A20] border border-[#2A2F38] rounded-2xl shadow-2xl overflow-hidden"
+        className="relative w-full max-w-4xl max-h-[92vh] flex flex-col bg-[#171A20] border border-[#2A2F38] rounded-2xl shadow-2xl overflow-hidden font-sans"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Modal Top Header */}
+        {/* Modal Top Header Bar */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#2A2F38] bg-[#14171E] shrink-0">
           <div className="flex items-center gap-3">
-            <span className="text-[11px] font-mono uppercase tracking-widest text-[#F5A623] px-2 py-0.5 rounded bg-[#F5A623]/10 border border-[#F5A623]/25">
-              Case Study & System Details
+            <span className="text-[11px] font-mono uppercase tracking-widest text-[#F5A623] px-2.5 py-0.5 rounded-full bg-[#F5A623]/10 border border-[#F5A623]/25 font-bold">
+              {project.category || 'PROJECT CASE STUDY'}
             </span>
             {project.academicContext && (
-              <span className="hidden sm:inline-block text-xs text-[#A6ABB5]">
+              <span className="hidden sm:inline-block text-xs text-[#A6ABB5] truncate max-w-xs">
                 {project.academicContext}
               </span>
             )}
@@ -69,21 +69,22 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
           <button 
             type="button"
             onClick={onClose}
-            aria-label="Close project modal"
+            aria-label="Close project details"
             className="p-1.5 text-[#A6ABB5] hover:text-[#F5F5F2] hover:bg-[#2A2F38] rounded-lg transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Scrollable Content */}
+        {/* Scrollable Modal Content */}
         <div className="overflow-y-auto p-6 sm:p-8 space-y-8 focus:outline-none">
-          {/* Title and Subtitle */}
+          
+          {/* 1. Overview */}
           <div>
             <span className="text-xs uppercase tracking-widest text-[#F5A623] font-semibold">
               {project.subtitle}
             </span>
-            <h2 id="modal-project-title" className="text-2xl sm:text-3xl font-bold text-[#F5F5F2] mt-1 tracking-tight">
+            <h2 id="modal-project-title" className="text-2xl sm:text-3xl font-extrabold text-[#F5F5F2] mt-1 tracking-tight">
               {project.title}
             </h2>
             <p className="mt-3 text-base text-[#A6ABB5] leading-relaxed">
@@ -91,20 +92,20 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
             </p>
           </div>
 
-          {/* Interactive Visual or Schematic */}
+          {/* 2. Interactive Prototype / Simulation Visual */}
           <div>
-            <div className="text-xs uppercase tracking-wider text-[#A6ABB5] font-mono mb-2">
-              Interactive System Architecture & Schematic
+            <div className="text-xs uppercase tracking-wider text-[#A6ABB5] font-mono mb-2.5">
+              Prototype &amp; Simulation Model
             </div>
             {renderVisual()}
           </div>
 
-          {/* Problem & Solution Grid */}
+          {/* 3. Problem & Project Goal Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="p-5 rounded-xl bg-[#1C2027] border border-[#2A2F38]">
-              <div className="flex items-center gap-2 text-[#F5A623] mb-2 font-semibold text-sm">
+              <div className="flex items-center gap-2 text-[#F5A623] mb-2 font-bold text-sm">
                 <Lightbulb className="w-4 h-4" />
-                The Problem
+                <span>Problem &amp; Motivation</span>
               </div>
               <p className="text-sm text-[#A6ABB5] leading-relaxed">
                 {project.problem}
@@ -112,9 +113,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
             </div>
 
             <div className="p-5 rounded-xl bg-[#1C2027] border border-[#2A2F38]">
-              <div className="flex items-center gap-2 text-emerald-400 mb-2 font-semibold text-sm">
-                <Compass className="w-4 h-4" />
-                Engineered Solution
+              <div className="flex items-center gap-2 text-cyan-400 mb-2 font-bold text-sm">
+                <Target className="w-4 h-4" />
+                <span>Project Goal</span>
               </div>
               <p className="text-sm text-[#A6ABB5] leading-relaxed">
                 {project.solution}
@@ -122,10 +123,28 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
             </div>
           </div>
 
-          {/* Technologies Used */}
+          {/* 4. How the System Works */}
+          <div>
+            <h3 className="text-sm font-bold text-[#F5F5F2] mb-3 flex items-center gap-2">
+              <Compass className="w-4 h-4 text-[#F5A623]" />
+              <span>How the System Works</span>
+            </h3>
+            <div className="space-y-2.5">
+              {project.processAndWorkflow.map((step, idx) => (
+                <div key={idx} className="flex items-start gap-3 p-3.5 rounded-lg bg-[#1C2027]/70 border border-[#2A2F38]/60 text-sm">
+                  <span className="font-mono text-xs font-bold text-[#F5A623] mt-0.5 shrink-0">
+                    Step {idx + 1}
+                  </span>
+                  <span className="text-[#A6ABB5] leading-relaxed">{step}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 5. Technologies & Engineering Concepts */}
           <div>
             <h3 className="text-xs uppercase tracking-wider text-[#A6ABB5] font-mono mb-3">
-              Technologies & Methodologies
+              Technologies &amp; Engineering Concepts
             </h3>
             <div className="flex flex-wrap gap-2 text-xs">
               {project.technologies.map((tech, idx) => (
@@ -139,85 +158,63 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
             </div>
           </div>
 
-          {/* Actual Contribution */}
+          {/* 6. My Contribution (Verified details only) */}
           <div className="p-5 rounded-xl bg-[#14171E] border border-[#2A2F38]">
-            <h3 className="text-sm font-semibold text-[#F5F5F2] flex items-center gap-2 mb-2">
+            <h3 className="text-sm font-bold text-[#F5F5F2] flex items-center gap-2 mb-2">
               <Award className="w-4 h-4 text-[#F5A623]" />
-              Role & Contribution
+              <span>My Contribution</span>
             </h3>
             <p className="text-sm text-[#A6ABB5] leading-relaxed">
               {project.actualContribution}
             </p>
           </div>
 
-          {/* Process and Workflow */}
-          <div>
-            <h3 className="text-sm font-semibold text-[#F5F5F2] mb-3">
-              Process & Implementation Stages
-            </h3>
-            <div className="space-y-2.5">
-              {project.processAndWorkflow.map((step, idx) => (
-                <div key={idx} className="flex items-start gap-3 p-3 rounded-lg bg-[#1C2027]/70 border border-[#2A2F38]/60 text-sm">
-                  <span className="font-mono text-xs font-bold text-[#F5A623] mt-0.5 shrink-0">
-                    0{idx + 1}.
-                  </span>
-                  <span className="text-[#A6ABB5]">{step}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Results & Future Improvements */}
+          {/* 7. What I Learned & Current Limitations */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div>
-              <h3 className="text-sm font-semibold text-[#F5F5F2] mb-3">
-                Documented Results & Learnings
+            <div className="p-5 rounded-xl bg-[#1C2027] border border-[#2A2F38]">
+              <h3 className="text-sm font-bold text-[#F5F5F2] mb-3 flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-emerald-400" />
+                <span>What I Learned</span>
               </h3>
               <ul className="space-y-2 text-sm text-[#A6ABB5]">
                 {project.resultsAndLearnings.map((res, idx) => (
                   <li key={idx} className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
-                    <span>{res}</span>
+                    <span className="leading-relaxed">{res}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div>
-              <h3 className="text-sm font-semibold text-[#F5F5F2] mb-3">
-                Planned Future Improvements
+            <div className="p-5 rounded-xl bg-[#1C2027] border border-[#2A2F38]">
+              <h3 className="text-sm font-bold text-[#F5F5F2] mb-3 flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-[#F5A623]" />
+                <span>Current Limitations &amp; Scope</span>
               </h3>
               <ul className="space-y-2 text-sm text-[#A6ABB5]">
                 {project.futureImprovements.map((imp, idx) => (
                   <li key={idx} className="flex items-start gap-2">
                     <ArrowRight className="w-4 h-4 text-[#F5A623] mt-0.5 shrink-0" />
-                    <span>{imp}</span>
+                    <span className="leading-relaxed">{imp}</span>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
 
-          {/* Replacement notice */}
-          <div className="p-4 rounded-lg bg-[#101216] border border-[#2A2F38] text-xs text-[#A6ABB5]">
-            <span className="text-[#F5F5F2] font-semibold">Note for Portfolio Owner: </span>
-            To attach live hardware photos, circuit CAD diagrams or test videos for this project, 
-            update the <code className="text-[#F5A623] font-mono">customImagePath</code> property in 
-            <code className="text-[#F5A623] font-mono"> src/data/portfolioData.ts</code>.
-          </div>
         </div>
 
-        {/* Modal Footer */}
+        {/* Modal Footer with Back to Projects Link */}
         <div className="px-6 py-4 bg-[#14171E] border-t border-[#2A2F38] flex items-center justify-between">
-          <span className="text-xs text-[#A6ABB5]">
-            Abina Kumar · Engineering Portfolio
+          <span className="text-xs text-[#A6ABB5] font-mono">
+            Abina K · Engineering Projects
           </span>
           <button 
             type="button"
             onClick={onClose}
-            className="px-4 py-2 text-xs font-semibold text-[#F5F5F2] bg-[#1F242D] hover:bg-[#2A2F38] border border-[#2A2F38] rounded-lg transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-black bg-[#F5A623] hover:bg-[#e0951b] rounded-lg transition-colors cursor-pointer"
           >
-            Close Case Study
+            <span>Back to Projects</span>
           </button>
         </div>
       </div>

@@ -11,33 +11,39 @@ import { Projects } from './components/Projects';
 import { Skills } from './components/Skills';
 import { Education } from './components/Education';
 import { Certifications } from './components/Certifications';
-import { ResumeSection } from './components/ResumeSection';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { ProjectModal } from './components/ProjectModal';
 import { ResumeModal } from './components/ResumeModal';
 import { ProjectDetail } from './types';
-import { RESUME_CONFIG } from './data/portfolioData';
+import { ResumeViewer } from './components/ResumeViewer';
 
 export default function App() {
   const [selectedProject, setSelectedProject] = useState<ProjectDetail | null>(null);
   const [isResumeModalOpen, setIsResumeModalOpen] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>('home');
+  const [currentPath, setCurrentPath] = useState<string>(() => window.location.pathname);
 
-  // Handle centralized resume click
-  const handleResumeClick = () => {
-    if (RESUME_CONFIG.isAvailable) {
-      // Direct download if physical file exists
-      const link = document.createElement('a');
-      link.href = RESUME_CONFIG.filePath;
-      link.download = RESUME_CONFIG.fileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
-      // Honest placeholder status modal
-      setIsResumeModalOpen(true);
+  // Sync with browser history (back/forward buttons)
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigateTo = (path: string) => {
+    if (window.location.pathname !== path) {
+      window.history.pushState(null, '', path);
+      setCurrentPath(path);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  };
+
+  // Handle centralized resume click - opens dedicated /resume viewer without automatic download
+  const handleResumeClick = () => {
+    navigateTo('/resume');
   };
 
   const handleExploreClick = () => {
@@ -76,6 +82,10 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  if (currentPath === '/resume') {
+    return <ResumeViewer onBack={() => navigateTo('/')} />;
+  }
+
   return (
     <div className="min-h-screen bg-[#101216] text-[#F5F5F2] font-sans selection:bg-[#F5A623]/25 selection:text-[#F5A623] relative">
       {/* 1. Navigation */}
@@ -106,10 +116,7 @@ export default function App() {
         {/* 7. Certifications */}
         <Certifications />
 
-        {/* 8. Resume Download */}
-        <ResumeSection onResumeClick={handleResumeClick} />
-
-        {/* 9. Contact */}
+        {/* 8. Contact */}
         <Contact />
       </main>
 
